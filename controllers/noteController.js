@@ -12,10 +12,13 @@ const getAllNote = asyncHandler(async (req, res) => {
     }
   });
 
+  // Check if notes exist
+
   if (!notes || notes.length === 0) {
     return res.status(404).json({ message: "No Notes found" });
   }
 
+  // Get username of each note
   const notesWithUser = await Promise.all(
     notes.map(async (note) => {
       const user = await prisma.user.findUnique({
@@ -40,10 +43,12 @@ const getAllNote = asyncHandler(async (req, res) => {
 const createNewNote = asyncHandler(async (req, res) => {
   const { id, title, text } = req.body;
 
+  // Check if all fields are present
   if (!id || !title || !text) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
+  // Check if user with this id exists
   const notExistUser = await prisma.user.findUnique({
     where: {
       id: id,
@@ -54,7 +59,7 @@ const createNewNote = asyncHandler(async (req, res) => {
       .status(400)
       .json({ message: "User with this id does not exist" });
   }
-
+// Check if note with this title already exists
   const duplicateNote = await prisma.notes.findUnique({
     where: {
       title: title,
