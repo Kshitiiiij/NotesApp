@@ -10,8 +10,10 @@ datasource db {
 
 model User {
   id       Int     @id @default(autoincrement())
-  username String? @unique
+  username String @unique
+  password String
   roles    String  @default("Employee")
+  isActive Boolean @default(true)
   note     Notes[]
 }
 
