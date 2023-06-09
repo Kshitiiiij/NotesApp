@@ -18,7 +18,7 @@ model User {
 }
 
 model Notes {
-  id     Int    @id @default(autoincrement())
+  nId     Int    @id @default(autoincrement())
   title  String 
   text   String
   user   User   @relation(fields: [userId], references: [id])
